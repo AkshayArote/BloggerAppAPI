@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -31,7 +36,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Table(name = "User")
-public class User  {
+public class User implements UserDetails {
 	/**
 	 * 
 	 */
@@ -49,45 +54,48 @@ public class User  {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Post> post;
 
-//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"))
-//	private Set<Role> role = new HashSet<>();
-//
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		
-//		List<SimpleGrantedAuthority> authorities =this.role.stream().map((role)->new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
-//
-//		return authorities;
-//	}
-//
-//	@Override
-//	public String getUsername() {
-//		return this.email;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonExpired() {
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonLocked() {
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isCredentialsNonExpired() {
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isEnabled() {
-//		return true;
-//	}
-//
-//	@Override
-//	public String getPassword() {
-//		return this.password;
-//	}
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"))
+	private Role role;
+	
+
+
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+
+		return List.of(new SimpleGrantedAuthority(role.getRole()));
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
 }

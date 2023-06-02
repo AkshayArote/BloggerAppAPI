@@ -17,7 +17,7 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
@@ -25,7 +25,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
-		 https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		 <!--https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -77,11 +77,14 @@
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
+		
+		<!-- This is Spring Security dependancy -->
+
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 			<version>0.11.5</version>
-		</dependency>
+		</dependency>	
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
@@ -92,6 +95,8 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 		</dependency>
+		
+		
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
