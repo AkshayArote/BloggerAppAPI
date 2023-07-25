@@ -1,6 +1,6 @@
 package com.bloggingapp.controller;
 		
-import java.lang.ModuleLayer.Controller;
+//import java.lang.ModuleLayer.Controller;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ import com.bloggingapp.utility.GlobleResources;
 	
 public class CommentController {
 	
-	private Logger logger=GlobleResources.getLogger(Controller.class);
+//	private Logger logger=GlobleResources.getLogger(Controller.class);
 	
 	@Autowired
 	private CommentServices commentServices;
 	
 	@PostMapping("/posts/{postId}/comments")
 	public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commetnt, @PathVariable Integer postId) {
-		logger.info("Started createComment() Function");
+//		logger.info("Started createComment() Function");
 		CommentDto createComment=null;
 		
 		try {			
@@ -43,7 +43,7 @@ public class CommentController {
 	
 	@DeleteMapping("/comments/{commentId}")
 	public ResponseEntity<ApiResponse> deleteComment(@PathVariable Integer commentId){
-		logger.info("Started deleteComment() Function");
+//		logger.info("Started deleteComment() Function");
 		try {
 
 			this.commentServices.deleteComment(commentId);

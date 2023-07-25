@@ -24,7 +24,9 @@ import com.bloggingapp.utility.GlobleResources;
 
 import jakarta.validation.Valid;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/category/")
 public class CategoryController {
@@ -37,7 +39,8 @@ public class CategoryController {
 	// Post-add category
 	@PostMapping("/")
 	public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
-		logger.info("Started addCategory() Function");
+//		logger.info("Started addCategory() Function");
+		log.info("Started addCategory() Function");
 		CategoryDto dto=null;
 		try {
 			dto = this.service.addCategory(categoryDto);

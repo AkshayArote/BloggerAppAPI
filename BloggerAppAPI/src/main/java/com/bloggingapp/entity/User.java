@@ -1,5 +1,6 @@
 package com.bloggingapp.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -51,23 +52,19 @@ public class User implements UserDetails {
 	private String password;
 	private String about;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Post> post;
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private List<Post> post;
+//
+//	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"))
+//	private Role role;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"))
-	private Role role;
-	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Post> post = new ArrayList<>();
 
-
-
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-
-		return List.of(new SimpleGrantedAuthority(role.getRole()));
-	}
+	@ManyToMany
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
+	private Set<Role> roles = new HashSet<>();
 
 	@Override
 	public String getUsername() {
@@ -97,5 +94,11 @@ public class User implements UserDetails {
 	@Override
 	public String getPassword() {
 		return this.password;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.roles.stream().map((role) -> new SimpleGrantedAuthority(role.getRole()))
+				.collect(Collectors.toList());
 	}
 }
